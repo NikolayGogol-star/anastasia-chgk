@@ -3,7 +3,7 @@
   const $ = id => document.getElementById(id);
   const questions = window.QUESTIONS;
   const KEY = 'anastasia-club-v1';
-  const fresh = () => ({player:0,authors:0,played:[],answers:{},active:null,phase:'question',remaining:60000,draft:'',sound:true,entered:false,warningPlayed:false});
+  const fresh = () => ({player:0,authors:0,played:[],answers:{},active:null,phase:'question',remaining:60000,draft:'',sound:true,entered:false,warningPlayed:false,screen:'welcome'});
   let state = fresh(), running = false, deadline = 0, interval, spinning = false, rotation = 0, audio;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY));
@@ -18,7 +18,7 @@
   function cue(name){if(state.sound)window.GameSounds.play(name);}
   function render(){
     const entered = state.entered || state.played.length>0 || state.active!==null;
-    $('welcome').hidden=entered;$('game-screen').hidden=!entered;
+    $('welcome').hidden=entered||state.screen==='mechanics';$('mechanics').hidden=entered||state.screen!=='mechanics';$('game-screen').hidden=!entered;
     $('player-score').textContent=state.player;$('authors-score').textContent=state.authors;
     $('round-label').textContent=`Сыграно ${state.played.length} из ${questions.length}`;
     $('sound').textContent=`Звук: ${state.sound?'вкл.':'выкл.'}`;$('sound').setAttribute('aria-pressed',String(state.sound));
@@ -51,7 +51,8 @@
   function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(!exhibition){if(correct)state.player++;else state.authors++;}cue(!exhibition&&finished()&&state.player>=6?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();}
   $('spin').onclick=()=>{if(spinning)return;if(state.active!==null){showQuestion();return;}const available=questions.filter(q=>!state.played.includes(q.id));if(!available.length)return;const q=available[Math.floor(Math.random()*available.length)],index=questions.indexOf(q);window.GameSounds.unlock();cue('spin');spinning=true;render();rotation+=360*12+((360-index*360/questions.length-rotation%360)%360+360)%360;$('wheel').style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{state.active=q.id;state.phase='question';state.remaining=60000;state.warningPlayed=false;state.draft='';spinning=false;save();render();cue('question');showQuestion();},matchMedia('(prefers-reduced-motion: reduce)').matches?0:18000);};
   $('intro-music').onclick=()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();cue('intro');$('intro-music').textContent='♫ Музыка начала игры · играет';$('intro-music').setAttribute('aria-pressed','true');};
-  $('enter-game').onclick=()=>{state.entered=true;save();render();window.scrollTo(0,0);$('table-heading').focus({preventScroll:true});$('spin').click();};
+  $('enter-game').onclick=()=>{window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');state.screen='mechanics';save();render();window.scrollTo(0,0);$('mechanics-title').focus({preventScroll:true});};
+  $('start-game').onclick=()=>{state.entered=true;save();render();window.scrollTo(0,0);$('table-heading').focus({preventScroll:true});$('spin').click();};
   $('pause').onclick=()=>{window.GameSounds.stop();running?stopTimer():startTimer();};$('reveal').onclick=reveal;$('oral').onclick=reveal;
   $('answer-input').oninput=()=>{state.draft=$('answer-input').value;save();};
   $('correct').onclick=()=>grade(true);$('incorrect').onclick=()=>grade(false);

@@ -4,8 +4,8 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102e29">
   <title>Особая игра · Для Анастасии</title>
-  <link rel="stylesheet" href="style.css?v=spin-18">
-  <script src="questions.js" defer></script><script src="sounds.js?v=spin-18" defer></script><script src="app.js?v=spin-18" defer></script>
+  <link rel="stylesheet" href="style.css?v=mechanics-1">
+  <script src="questions.js" defer></script><script src="sounds.js?v=mechanics-1" defer></script><script src="app.js?v=mechanics-1" defer></script>
 </head>
 <body>
   <header><a class="brand" href="#" aria-label="Главная">ЧТО<span>ГДЕ</span>КОГДА<span class="brand-dot">?</span></a><div class="edition">ЗАКРЫТЫЙ КЛУБ <span>•</span> ОСОБАЯ ИГРА</div><button id="sound" class="icon-button" aria-pressed="true">Звук: вкл.</button></header>
@@ -23,7 +23,24 @@
         <p>За правильный ответ очко получают знатоки, за неправильный очко уходит коллегам.</p>
         <p>Итак, все приготовления окончены.</p>
         <p class="welcome-invitation"><strong>Уважаемая именинница, прошу вас занять место за игровым столом!</strong></p>
-        <button id="enter-game" class="primary welcome-start">ВРАЩАТЬ ВОЛЧОК <span aria-hidden="true">↗</span></button>
+        <button id="enter-game" class="primary welcome-start">КАК ПРОХОДИТ ИГРА <span aria-hidden="true">↗</span></button>
+      </div>
+    </section>
+    <section id="mechanics" class="welcome mechanics" aria-labelledby="mechanics-title" hidden>
+      <div class="welcome-heading"><p class="eyebrow">ПЕРЕД НАЧАЛОМ ИГРЫ</p><h1 id="mechanics-title" tabindex="-1">Как проходит игра</h1><span class="welcome-ornament" aria-hidden="true">✦</span></div>
+      <div class="welcome-letter">
+        <p>Анастасия, перед вами 13 конвертов с вопросами от коллег. Вы можете играть самостоятельно или собрать команду знатоков, чтобы разделить с ними этот опыт.</p>
+        <ol class="mechanics-steps">
+          <li><h2>Вращайте волчок</h2><p>Нажмите кнопку, и волчок выберет один из оставшихся вопросов.</p></li>
+          <li><h2>Смотрите видеовопрос</h2><p>Каждый вопрос задаёт кто-то из коллег. После окончания видео автоматически запустится таймер.</p></li>
+          <li><h2>Минута на размышление</h2><p>У вас есть 60 секунд на обсуждение. За 10 секунд до конца прозвучит предупреждение, а затем сигнал окончания минуты. Если ответ готов раньше, ждать необязательно.</p></li>
+          <li><h2>Внимание, правильный ответ!</h2><p>Произнесите свою версию вслух или запишите её в специальное поле. После этого откройте правильный ответ.</p></li>
+          <li><h2>Кому достанется очко?</h2><p>Решать вам! Если ответ совпал по смыслу, засчитайте очко знатокам. Если нет, очко получают коллеги. Счёт обновится автоматически.</p></li>
+        </ol>
+        <p><strong>Игра продолжается до 6 очков.</strong> После определения победителя вы сможете открыть оставшиеся конверты и посмотреть все видеовопросы.</p>
+        <p>Таймер можно поставить на паузу, а звуки игры при необходимости отключить.</p>
+        <p class="welcome-invitation"><strong>Итак, знатоки, внимание! Просим занять места за игровым столом!</strong></p>
+        <button id="start-game" class="primary welcome-start">К ИГРОВОМУ СТОЛУ <span aria-hidden="true">↗</span></button>
       </div>
     </section>
     <div id="game-screen" hidden>
