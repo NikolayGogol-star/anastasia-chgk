@@ -7,27 +7,30 @@
   }).catch(() => null)]));
   let context, source, generation = 0;
   const buffers = new Map();
-  function unlock() {
+  async function unlock() {
     try {
       if (!context) context = new (window.AudioContext || window.webkitAudioContext)();
-      context.resume().catch(() => {});
-    } catch {}
+      await context.resume();
+      return context.state === 'running';
+    } catch { return false; }
   }
   function stop() {
     generation++;
     if (source) { try { source.stop(); } catch {} source = null; }
   }
   async function play(name) {
-    stop(); unlock();
+    stop();
     const token = generation;
-    if (!context) return;
+    const ready = await unlock();
+    if (token !== generation) return false;
+    if (!ready) { document.dispatchEvent(new CustomEvent('game-audio-error')); return false; }
     try {
       if (!buffers.has(name)) {
         const bytes = await data.get(name);
-        if (!bytes) return;
+        if (!bytes) throw new Error('Audio unavailable');
         buffers.set(name, await context.decodeAudioData(bytes.slice(0)));
       }
-      if (token !== generation || context.state !== 'running') return;
+      if (token !== generation) return false;
       source = context.createBufferSource();
       source.buffer = buffers.get(name);
       const gain = context.createGain();
@@ -40,7 +43,9 @@
         gain.gain.linearRampToValueAtTime(0,now+duration);
       }
       source.start(0,0,duration);
-    } catch { /* Игра продолжается и без доступного аудио. */ }
+      document.dispatchEvent(new CustomEvent('game-audio-playing',{detail:name}));
+      return true;
+    } catch { document.dispatchEvent(new CustomEvent('game-audio-error')); return false; }
   }
   window.GameSounds = {unlock,play,stop};
 })();

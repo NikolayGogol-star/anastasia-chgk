@@ -15,7 +15,7 @@
   } catch {}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{$('saved-note').textContent='Браузер не разрешил сохранение прогресса';}}
   function finished(){return state.player>=6 || state.authors>=6;}
-  function cue(name){if(state.sound)window.GameSounds.play(name);}
+  function cue(name){if(state.sound)return window.GameSounds.play(name);return Promise.resolve(false);}
   function render(){
     const entered = state.entered || state.played.length>0 || state.active!==null;
     $('welcome').hidden=entered||state.screen==='mechanics';$('mechanics').hidden=entered||state.screen!=='mechanics';$('game-screen').hidden=!entered;
@@ -49,16 +49,19 @@
   }
   function reveal(){cue('reveal');stopTimer();state.draft=$('answer-input').value.trim();state.phase='reveal';save();showQuestion();}
   function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(!exhibition){if(correct)state.player++;else state.authors++;}cue(!exhibition&&finished()&&state.player>=6?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();}
-  $('spin').onclick=()=>{if(spinning)return;if(state.active!==null){showQuestion();return;}const available=questions.filter(q=>!state.played.includes(q.id));if(!available.length)return;const q=available[Math.floor(Math.random()*available.length)],index=questions.indexOf(q);window.GameSounds.unlock();cue('spin');spinning=true;render();rotation+=360*12+((360-index*360/questions.length-rotation%360)%360+360)%360;$('wheel').style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{state.active=q.id;state.phase='question';state.remaining=60000;state.warningPlayed=false;state.draft='';spinning=false;save();render();cue('question');showQuestion();},matchMedia('(prefers-reduced-motion: reduce)').matches?0:18000);};
-  $('intro-music').onclick=()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();cue('intro');$('intro-music').textContent='♫ Музыка начала игры · играет';$('intro-music').setAttribute('aria-pressed','true');};
-  $('enter-game').onclick=()=>{window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');state.screen='mechanics';save();render();window.scrollTo(0,0);$('mechanics-title').focus({preventScroll:true});};
+  $('spin').onclick=()=>{if(spinning)return;if(state.active!==null){window.GameSounds.unlock();cue('question');showQuestion();return;}const available=questions.filter(q=>!state.played.includes(q.id));if(!available.length)return;const q=available[Math.floor(Math.random()*available.length)],index=questions.indexOf(q);window.GameSounds.unlock();cue('spin');spinning=true;render();rotation+=360*12+((360-index*360/questions.length-rotation%360)%360+360)%360;$('wheel').style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{state.active=q.id;state.phase='question';state.remaining=60000;state.warningPlayed=false;state.draft='';spinning=false;save();render();cue('question');showQuestion();},matchMedia('(prefers-reduced-motion: reduce)').matches?0:18000);};
+  $('intro-music').onclick=async()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();$('intro-music').textContent='♫ Запускаем музыку…';const played=await cue('intro');$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed',String(played));};
+  document.addEventListener('game-audio-error',()=>{$('audio-notice').hidden=false;});
+  document.addEventListener('game-audio-playing',()=>{$('audio-notice').hidden=true;});
+  document.addEventListener('click',()=>{if(state.sound)window.GameSounds.unlock();},{capture:true});
+  $('enter-game').onclick=()=>{state.screen='mechanics';save();render();window.scrollTo(0,0);$('mechanics-title').focus({preventScroll:true});};
   $('start-game').onclick=()=>{state.entered=true;save();render();window.scrollTo(0,0);$('table-heading').focus({preventScroll:true});$('spin').click();};
   $('pause').onclick=()=>{window.GameSounds.stop();running?stopTimer():startTimer();};$('reveal').onclick=reveal;$('oral').onclick=reveal;
   $('answer-input').oninput=()=>{state.draft=$('answer-input').value;save();};
   $('correct').onclick=()=>grade(true);$('incorrect').onclick=()=>grade(false);
   $('close-dialog').onclick=()=>{$('question-dialog').close();};
   $('question-dialog').addEventListener('close',()=>{if(state.active!==null)window.GameSounds.stop();stopTimer();const v=$('question-stage').querySelector('video');if(v)v.pause();render();});
-  $('sound').onclick=()=>{state.sound=!state.sound;save();render();if(state.sound)cue('minute-start');else {window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}};
+  $('sound').onclick=()=>{state.sound=!state.sound;save();render();if(state.sound)cue(!state.entered&&!state.played.length&&state.active===null?'intro':'minute-start');else {window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}};
   $('reset').onclick=()=>$('reset-dialog').showModal();$('cancel-reset').onclick=()=>$('reset-dialog').close();
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();rotation=0;$('wheel').style.transform='rotate(0deg)';save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
   document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});

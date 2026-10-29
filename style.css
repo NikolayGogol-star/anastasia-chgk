@@ -7,3 +7,5 @@
 .intro-music{display:block;margin:24px auto 0;color:var(--gold);font-size:11px;border-color:#ddbd7944;font-weight:500}
 
 .mechanics .welcome-heading h1{font-size:clamp(28px,4vw,48px);white-space:normal;letter-spacing:-1px}.mechanics-steps{list-style:none;counter-reset:steps;padding:0;margin:30px 0}.mechanics-steps li{counter-increment:steps;position:relative;padding:0 0 25px 55px;margin-bottom:25px;border-bottom:1px solid var(--line)}.mechanics-steps li:before{content:counter(steps,decimal-leading-zero);position:absolute;left:0;top:2px;font:25px Georgia;color:var(--gold)}.mechanics-steps h2{font-size:23px;margin:0 0 12px}.mechanics-steps p{color:#d1dbd1;font-size:16px;line-height:1.95;margin:0}.mechanics h1:focus{outline:none}@media(max-width:660px){.mechanics-steps li{padding-left:40px}.mechanics-steps h2{font-size:21px}.mechanics-steps p{font-size:15px}}
+
+.audio-notice{max-width:850px;margin:18px auto;padding:14px 20px;color:var(--gold);border:1px solid #ddbd7944;border-radius:6px;font-size:13px;line-height:1.7}
