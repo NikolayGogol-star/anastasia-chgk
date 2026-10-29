@@ -4,8 +4,8 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102e29">
   <title>Особая игра · Для Анастасии</title>
-  <link rel="stylesheet" href="style.css?v=audio-fix-1">
-  <script src="questions.js" defer></script><script src="sounds.js?v=audio-fix-1" defer></script><script src="app.js?v=audio-fix-1" defer></script>
+  <link rel="stylesheet" href="style.css?v=table-3d-1">
+  <script src="questions.js" defer></script><script src="sounds.js?v=table-3d-1" defer></script><script src="table.js?v=table-3d-1" defer></script><script src="app.js?v=table-3d-1" defer></script>
 </head>
 <body>
   <header><a class="brand" href="#" aria-label="Главная">ЧТО<span>ГДЕ</span>КОГДА<span class="brand-dot">?</span></a><div class="edition">ЗАКРЫТЫЙ КЛУБ <span>•</span> ОСОБАЯ ИГРА</div><button id="sound" class="icon-button" aria-pressed="true">Звук: вкл.</button></header>
@@ -47,7 +47,19 @@
     <div id="game-screen" hidden>
     <section class="game-heading"><p class="eyebrow">СПЕЦИАЛЬНЫЙ ВЫПУСК В ЧЕСТЬ ДНЯ РОЖДЕНИЯ</p><h2 tabindex="-1" id="table-heading">Анастасия, вы за игровым столом.</h2></section>
     <section class="game-layout" aria-label="Игра">
-      <div class="table-area"><div class="table-label"><span class="live-dot"></span> ИНТЕЛЛЕКТУАЛЬНЫЙ ВЕЧЕР <span id="round-label">13 конвертов</span></div><div class="wheel-wrap"><div class="wheel-pointer" aria-hidden="true"></div><div id="wheel" class="wheel"><div id="sectors"></div><div class="wheel-center"><span>КЛУБ ЗНАТОКОВ</span><strong>А</strong><small>ОСОБАЯ ИГРА</small></div></div></div><p class="table-caption">Один поворот. Один вопрос. Ваша минута.</p></div>
+      <div class="table-area"><div class="table-label"><span class="live-dot"></span> ИНТЕЛЛЕКТУАЛЬНЫЙ ВЕЧЕР <span id="round-label">13 конвертов</span></div><div class="table-stage" id="table-stage">
+        <div class="table-shadow" aria-hidden="true"></div>
+        <div id="wheel" class="club-table" role="group" aria-label="Деревянный игровой стол с 13 конвертами">
+          <div class="table-rim" aria-hidden="true"></div><div class="table-inlay" aria-hidden="true"></div>
+          <div id="sectors" class="table-envelopes"></div>
+          <div class="spinner-foot" aria-hidden="true"></div>
+          <div id="spinner-rotor" class="spinner-rotor" aria-hidden="true">
+            <svg viewBox="0 0 600 600"><defs><linearGradient id="brass" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#5e4829"/><stop offset=".32" stop-color="#bfa16c"/><stop offset=".52" stop-color="#e2cc96"/><stop offset=".72" stop-color="#a08148"/><stop offset="1" stop-color="#594326"/></linearGradient></defs><path d="M294 330L294 157L281 157L300 111L319 157L306 157L306 330Z" fill="url(#brass)" stroke="#574025" stroke-width="1.5"/><path d="M296 302L283 357Q300 370 317 357L304 302" fill="url(#brass)" stroke="#574025" stroke-width="1.5"/><circle cx="300" cy="300" r="25" fill="url(#brass)" stroke="#4a351c" stroke-width="3"/></svg>
+          </div>
+          <div class="spinner-cap" aria-hidden="true"><i></i><span>А</span></div>
+        </div>
+        <p id="table-announcement" class="sr-only" aria-live="polite"></p>
+      </div><p class="table-caption">Один поворот. Один вопрос. Ваша минута.</p></div>
       <aside class="dashboard"><div class="score-label">ИГРА ДО 6 ОЧКОВ</div><div class="scoreboard"><div><span>Анастасия</span><strong id="player-score">0</strong></div><span class="score-colon">:</span><div><span>Коллеги</span><strong id="authors-score">0</strong></div></div><div class="divider"></div><p class="eyebrow" id="status-label">НАЧИНАЕМ ВЕЧЕР</p><h2 id="status-title">Внимание,<br>на столе — вопросы.</h2><p class="muted" id="status-copy">Крутите волчок — он выберет конверт. Посмотрите вопрос и дайте себе минуту на размышление.</p><button id="spin" class="primary">Крутить волчок <span>↗</span></button><p class="micro" id="saved-note">Прогресс сохраняется на этом устройстве</p><button id="reset" class="text-button">Начать заново</button></aside>
     </section>
     <section class="rules"><div><span>01</span><p>Посмотрите<br><strong>видео-вопрос</strong></p></div><div><span>02</span><p>Обсудите за<br><strong>одну минуту</strong></p></div><div><span>03</span><p>Откройте ответ<br><strong>и оцените себя</strong></p></div><div class="demo-note">ПРОБНАЯ ВЕРСИЯ<br><span>Видео коллег скоро появятся</span></div></section>

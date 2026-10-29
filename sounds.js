@@ -35,7 +35,7 @@
       source.buffer = buffers.get(name);
       const gain = context.createGain();
       source.connect(gain); gain.connect(context.destination);
-      const duration = Math.min(source.buffer.duration, {intro:180,spin:18,correct:6,incorrect:5,victory:12}[name] || 15);
+      const duration = Math.min(source.buffer.duration, {intro:180,spin:7.4,correct:6,incorrect:5,victory:12}[name] || 15);
       const now = context.currentTime;
       gain.gain.setValueAtTime(.7,now);
       if (duration>2) {
