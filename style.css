@@ -45,3 +45,5 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:1000px) and (min-width:661px){.game-layout{grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr)}.dashboard{padding:26px 22px}.table-area{padding:24px 14px}.table-stage{margin-top:42px}.table-label{font-size:7px}.table-caption{font-size:11px}.envelope-number{font-size:14px}}
 @media(max-width:660px){.game-layout{grid-template-columns:minmax(0,1fr)}.table-area{padding:20px 10px 17px}.table-stage{width:100%;margin:12px auto 0;perspective:850px}.club-table{inset:5%;transform:rotateX(22deg)}.table-caption{font-size:12px;margin-top:4px}.table-rim{border-width:10px}.envelope-number{font-size:clamp(12px,4vw,19px)}.spinner-cap span{font-size:22px}.spinner-foot:after{font-size:5px;letter-spacing:.5px}.envelope-played{font-size:6px}.table-shadow{filter:blur(13px)}.table-label{font-size:7px;letter-spacing:.8px}}
+
+#explanation{white-space:pre-line}.accepted-answer{padding:13px 16px;border:1px solid #ddbd7944;border-radius:5px;font-size:14px;line-height:1.7;color:var(--gold)}
