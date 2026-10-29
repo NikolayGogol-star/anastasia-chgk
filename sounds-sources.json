@@ -1,0 +1,59 @@
+{
+  "collection": "https://zvukipro.com/teleshow/720-zvuki-i-muzyka-iz-teleperedachi-chto-gde-kogda.html",
+  "tracks": [
+    {
+      "event": "spin",
+      "file": "sound-spin.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826345_volchok.mp3",
+      "bytes": 692352
+    },
+    {
+      "event": "minute-start",
+      "file": "sound-minute-start.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827985_chgk2_sig1.mp3",
+      "bytes": 18488
+    },
+    {
+      "event": "warning",
+      "file": "sound-warning.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557828121_chgk2_sig2.mp3",
+      "bytes": 16816
+    },
+    {
+      "event": "time-up",
+      "file": "sound-time-up.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557828147_chgk2_sig3.mp3",
+      "bytes": 19324
+    },
+    {
+      "event": "question",
+      "file": "sound-question.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557828224_chgk2_vopros.mp3",
+      "bytes": 14832
+    },
+    {
+      "event": "reveal",
+      "file": "sound-reveal.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827794_chgk2_otvet.mp3",
+      "bytes": 38448
+    },
+    {
+      "event": "correct",
+      "file": "sound-correct.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826684_pause6.mp3",
+      "bytes": 573567
+    },
+    {
+      "event": "incorrect",
+      "file": "sound-incorrect.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827773_chgk2_no2.mp3",
+      "bytes": 316560
+    },
+    {
+      "event": "victory",
+      "file": "sound-victory.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826810_pobediteli.mp3",
+      "bytes": 1988736
+    }
+  ]
+}
