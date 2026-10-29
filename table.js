@@ -55,23 +55,64 @@
     try{if(!reduced())await liftAndOpen(anchor);}finally{busy=false;}
     return true;
   }
+  let openingLayer=null;
   async function liftAndOpen(anchor){
-    await new Promise(r=>setTimeout(r,450));
-    const paper=anchor.querySelector('.envelope'),rect=paper.getBoundingClientRect();
-    const overlay=document.createElement('div');overlay.className='envelope-flight-backdrop';
-    const flyer=document.createElement('div');flyer.className='flying-envelope';
-    const width=Math.min(350,innerWidth*.72),height=width*.65;
-    // Draw at final resolution and animate from a reduced size, never above scale(1).
-    flyer.style.cssText=`left:${(innerWidth-width)/2}px;top:${(innerHeight-height)/2}px;width:${width}px;height:${height}px;font-size:${width*.24}px`;
-    flyer.append(paper.cloneNode(true));document.body.append(overlay,flyer);
-    paper.style.visibility='hidden';
+    await new Promise(r=>setTimeout(r,320));
+    const original=anchor.querySelector('.envelope'),rect=original.getBoundingClientRect();
+    const id=Number(anchor.dataset.questionId),number=String(id).padStart(2,'0');
+    const width=Math.min(390,innerWidth*.76),height=width*.65;
+    const sheetWidth=Math.min(760,innerWidth*.9),sheetHeight=Math.min(560,innerHeight*.76);
+    const overlay=document.createElement('div');overlay.className='mail-overlay';
+    const rig=document.createElement('div');rig.className='mail-rig';rig.setAttribute('aria-hidden','true');
+    rig.style.cssText=`width:${width}px;height:${height}px;left:${(innerWidth-width)/2}px;top:${(innerHeight-height)/2+35}px`;
+    const back=document.createElement('div');back.className='mail-back';
+    const sheet=document.createElement('div');sheet.className='mail-insert';
+    sheet.style.cssText=`width:${sheetWidth}px;height:${sheetHeight}px`;
+    const heading=document.createElement('span');heading.className='mail-letter-heading';heading.textContent='ЧТО? ГДЕ? КОГДА?';
+    const numeral=document.createElement('strong');numeral.className='mail-letter-number';numeral.textContent=number;
+    const rule=document.createElement('div');rule.className='mail-letter-lines';
+    sheet.append(heading,numeral,rule);
+    const pocket=document.createElement('div');pocket.className='mail-pocket';
+    const stamp=document.createElement('span');stamp.className='mail-number';stamp.textContent=number;pocket.append(stamp);
+    const flap=document.createElement('div');flap.className='mail-flap';
+    rig.append(back,sheet,pocket,flap);overlay.append(rig);document.body.append(overlay);
+    const paperScale=width*.86/sheetWidth;
+    sheet.style.transform=`translateX(-50%) scale(${paperScale})`;
+    original.style.visibility='hidden';
+    const animate=(node,frames,duration,easing='cubic-bezier(.22,.65,.25,1)')=>node.animate(frames,{duration,easing,fill:'forwards'}).finished;
     try{
-      requestAnimationFrame(()=>overlay.classList.add('visible'));
-      const x=rect.left+rect.width/2-innerWidth/2,y=rect.top+rect.height/2-innerHeight/2;
-      await flyer.animate([{transform:`translate(${x}px,${y}px) scale(${rect.width/width},${rect.height/height})`},{transform:'translate(0,0) scale(1)'}],{duration:850,easing:'cubic-bezier(.22,.7,.25,1)',fill:'forwards'}).finished;
-      await flyer.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'}).finished;
-    }finally{flyer.remove();overlay.remove();paper.style.visibility='';}
+      const x=rect.left+rect.width/2-innerWidth/2,y=rect.top+rect.height/2-(innerHeight/2+35);
+      const scale=original.offsetWidth/width;
+      const rotation=questionAngle(id)>180?questionAngle(id)-360:questionAngle(id);
+      const launch=`translate(${x}px,${y}px) rotateX(25deg) rotateZ(${rotation}deg) scale(${scale})`;
+      rig.style.transform=launch;
+      await Promise.all([
+        animate(overlay,[{background:'rgba(3,18,13,0)'},{background:'rgba(3,18,13,.82)'}],650),
+        animate(rig,[{transform:launch},{transform:'translate(0,0) rotateX(0deg) rotateZ(0deg) scale(1)'}],900)
+      ]);
+      await animate(flap,[{transform:'rotateX(0deg)'},{transform:'rotateX(-178deg)'}],650,'cubic-bezier(.3,.15,.3,1)');
+      flap.style.zIndex='0';
+      await animate(sheet,[{transform:`translate(-50%,0) scale(${paperScale})`},{transform:`translate(-50%,${-height*.88}px) scale(${paperScale})`}],700);
+      const sheetRect=sheet.getBoundingClientRect();
+      const expanded=sheet.cloneNode(true);expanded.className='mail-expanded';
+      expanded.style.cssText=`position:fixed;width:${sheetWidth}px;height:${sheetHeight}px;left:${(innerWidth-sheetWidth)/2}px;top:${(innerHeight-sheetHeight)/2}px;transform-origin:center`;
+      overlay.append(expanded);sheet.style.visibility='hidden';
+      const dx=sheetRect.left+sheetRect.width/2-innerWidth/2,dy=sheetRect.top+sheetRect.height/2-innerHeight/2;
+      const folded=`translate(${dx}px,${dy}px) rotateX(9deg) scale(${paperScale})`;
+      expanded.style.transform=folded;
+      await Promise.all([
+        animate(expanded,[{transform:folded},{transform:'translate(0,0) rotateX(0deg) scale(1)'}],850),
+        animate(rig,[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(55px)'}],650)
+      ]);
+      openingLayer=overlay;
+    }catch(error){overlay.remove();throw error;}
+    finally{original.style.visibility='';}
+  }
+  function finishOpening(){
+    if(!openingLayer)return;
+    const layer=openingLayer;openingLayer=null;
+    layer.animate([{opacity:1},{opacity:0}],{duration:350,fill:'forwards'}).finished.finally(()=>layer.remove());
   }
   function reset(){if(!busy){setAngle(0);render([],null);}}
-  window.TableScene={render,spinTo,reset};
+  window.TableScene={render,spinTo,reset,finishOpening};
 })();

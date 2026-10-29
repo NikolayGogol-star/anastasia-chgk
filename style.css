@@ -47,3 +47,35 @@
 @media(max-width:660px){.game-layout{grid-template-columns:minmax(0,1fr)}.table-area{padding:20px 10px 17px}.table-stage{width:100%;margin:12px auto 0;perspective:850px}.club-table{inset:5%;transform:rotateX(22deg)}.table-caption{font-size:12px;margin-top:4px}.table-rim{border-width:10px}.envelope-number{font-size:clamp(12px,4vw,19px)}.spinner-cap span{font-size:22px}.spinner-foot:after{font-size:5px;letter-spacing:.5px}.envelope-played{font-size:6px}.table-shadow{filter:blur(13px)}.table-label{font-size:7px;letter-spacing:.8px}}
 
 #explanation{white-space:pre-line}.accepted-answer{padding:13px 16px;border:1px solid #ddbd7944;border-radius:5px;font-size:14px;line-height:1.7;color:var(--gold)}
+
+/* Конверт раскрывается слоями: задняя стенка, лист, карман и клапан. */
+.mail-overlay{position:fixed;inset:0;z-index:1000;pointer-events:none;perspective:1200px}
+.mail-rig{position:fixed;transform-origin:center;perspective:1100px;will-change:transform;isolation:isolate}
+.mail-back,.mail-pocket{position:absolute;inset:0;border-radius:3px;background:linear-gradient(140deg,#f2e6c8,#d6c49d);box-shadow:0 22px 38px #0006,0 1px 0 #fff8 inset;border:1px solid #ac96715c}
+.mail-back:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(5deg,#fff2 0px,#fff2 .5px,transparent .5px,transparent 3px);opacity:.6}
+.mail-pocket{z-index:3;clip-path:polygon(0 0,50% 48%,100% 0,100% 100%,0 100%);background:linear-gradient(32deg,#f4e8cd 49.5%,#c9b38d 50%,#eadaba 50.6%);box-shadow:none}
+.mail-pocket:after{content:'';position:absolute;inset:0;background:linear-gradient(-32deg,transparent 49.5%,#baa27a99 50%,#f0e2c6 50.6%);clip-path:polygon(0 100%,50% 42%,100% 100%)}
+.mail-number{position:absolute;z-index:2;left:0;right:0;bottom:15%;text-align:center;font:42px Georgia,serif;color:#493624}
+.mail-flap{position:absolute;inset:0 0 auto;height:56%;z-index:4;transform-origin:center top;background:linear-gradient(180deg,#eee0bc,#d6c29b);clip-path:polygon(0 0,100% 0,50% 100%);backface-visibility:visible;filter:drop-shadow(0 2px 1px #6c4d3044);will-change:transform}
+.mail-insert,.mail-expanded{background:repeating-linear-gradient(6deg,#fff3 0,#fff3 .7px,transparent .7px,transparent 4px),linear-gradient(140deg,#fff9e9,#ede0c3);border:1px solid #c4b38e;border-radius:2px;box-shadow:0 3px 8px #32200f33;color:#53452e;box-sizing:border-box;overflow:hidden}
+.mail-insert{position:absolute;left:50%;top:5%;z-index:1;transform-origin:top center;will-change:transform}
+.mail-expanded{z-index:5;will-change:transform;box-shadow:0 24px 65px #0006}
+.mail-letter-heading{position:absolute;top:12%;left:10%;right:10%;font:14px Georgia,serif;letter-spacing:3px;border-bottom:1px solid #b19c7666;padding-bottom:20px;text-align:center}
+.mail-letter-number{position:absolute;top:31%;left:0;right:0;font:76px Georgia,serif;font-weight:400;text-align:center;color:#88714e}
+.mail-letter-lines{position:absolute;left:13%;right:13%;top:65%;height:16%;background:repeating-linear-gradient(to bottom,#a08f6d33 0,#a08f6d33 1px,transparent 1px,transparent 18px)}
+/* Деревянный телевизор: настоящие элементы плеера остаются доступными. */
+#question-dialog.has-video{width:min(920px,96vw)}
+.television{padding:16px 18px 10px;border:1px solid #98714570;border-radius:16px;background:linear-gradient(130deg,#d3ac7040,transparent 45%),url('wood-grain.svg');background-size:cover;box-shadow:0 8px 0 #2d1c12,0 13px 22px #0005,inset 0 1px 1px #e3c99c66}
+.television-face{display:flex;align-items:stretch;gap:17px;border:1px solid #30251a;background:linear-gradient(135deg,#4c493a,#292c22);border-radius:10px;padding:12px;box-shadow:inset 0 2px 5px #0008}
+.television-screen{min-width:0;flex:1;position:relative;border-radius:32px / 25px;background:#020705;border:7px solid #151c16;box-shadow:0 1px 1px #c3b08a44,inset 0 0 12px #000b;overflow:hidden;display:flex;align-items:center}
+.television-screen:after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 14px #0008}
+.television-screen .video{display:block;width:100%;max-height:48vh;border-radius:0;aspect-ratio:16/9;object-fit:contain;background:#020705}
+.television-controls{width:48px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:15px}
+.tv-knob{width:38px;height:38px;display:block;border-radius:50%;background:repeating-conic-gradient(#4c4735 0deg 5deg,#85795c 5deg 8deg);box-shadow:1px 3px 4px #0009;border:3px solid #24271e;position:relative}
+.tv-knob:after{content:'';position:absolute;inset:4px;border-radius:50%;background:linear-gradient(120deg,#b6a37c,#5e543e);box-shadow:inset 0 1px 1px #e6d5ad77}
+.tv-knob:before{content:'';position:absolute;width:2px;height:11px;background:#e7d5a8;left:15px;top:4px;z-index:1;transform:rotate(25deg)}
+.tv-knob.small{transform:scale(.8)}
+.tv-speaker{flex:1;min-height:45px;width:36px;border-radius:3px;background:radial-gradient(circle,#080e09 1px,transparent 1.4px) 0 0/5px 5px,#4b4c3b;box-shadow:inset 0 1px 3px #0005}
+.tv-power{width:5px;height:5px;border-radius:50%;background:#a89865;box-shadow:0 0 0 2px #111b12}
+.television-badge{padding:12px 0 0;text-align:center;font:500 8px Manrope,Arial,sans-serif;letter-spacing:2px;color:#d0b88d;text-shadow:0 1px #20170f}
+@media(max-width:660px){.television{padding:9px 9px 7px;border-radius:10px}.television-face{padding:6px;gap:6px;border-radius:7px}.television-controls{width:26px;gap:8px;padding-top:5px}.tv-knob{width:24px;height:24px;border-width:2px}.tv-knob:after{inset:2px}.tv-knob:before{left:9px;height:7px;top:2px}.tv-speaker{width:23px;min-height:30px}.television-screen{border-width:4px;border-radius:20px/16px}.television-badge{font-size:6px;letter-spacing:1px;padding-top:9px}.mail-letter-heading{font-size:11px;letter-spacing:1px}.mail-letter-number{font-size:58px}.mail-number{font-size:33px}}
