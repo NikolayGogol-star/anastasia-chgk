@@ -54,6 +54,13 @@
       "file": "sound-victory.mp3",
       "source": "https://zvukipro.com/uploads/files/2019-05/1557826810_pobediteli.mp3",
       "bytes": 1988736
+    },
+    {
+      "event": "intro",
+      "file": "sound-intro.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826320_meeting.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10302",
+      "bytes": 1405056
     }
   ]
 }
