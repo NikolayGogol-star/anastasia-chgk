@@ -61,13 +61,14 @@
     const overlay=document.createElement('div');overlay.className='envelope-flight-backdrop';
     const flyer=document.createElement('div');flyer.className='flying-envelope';
     const width=Math.min(350,innerWidth*.72),height=width*.65;
-    flyer.style.cssText=`left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;font-size:${rect.width*.24}px`;
+    // Draw at final resolution and animate from a reduced size, never above scale(1).
+    flyer.style.cssText=`left:${(innerWidth-width)/2}px;top:${(innerHeight-height)/2}px;width:${width}px;height:${height}px;font-size:${width*.24}px`;
     flyer.append(paper.cloneNode(true));document.body.append(overlay,flyer);
     paper.style.visibility='hidden';
     try{
       requestAnimationFrame(()=>overlay.classList.add('visible'));
-      const x=innerWidth/2-(rect.left+rect.width/2),y=innerHeight/2-(rect.top+rect.height/2);
-      await flyer.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${x}px,${y}px) scale(${width/rect.width},${height/rect.height})`}],{duration:850,easing:'cubic-bezier(.22,.7,.25,1)',fill:'forwards'}).finished;
+      const x=rect.left+rect.width/2-innerWidth/2,y=rect.top+rect.height/2-innerHeight/2;
+      await flyer.animate([{transform:`translate(${x}px,${y}px) scale(${rect.width/width},${rect.height/height})`},{transform:'translate(0,0) scale(1)'}],{duration:850,easing:'cubic-bezier(.22,.7,.25,1)',fill:'forwards'}).finished;
       await flyer.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'}).finished;
     }finally{flyer.remove();overlay.remove();paper.style.visibility='';}
   }
