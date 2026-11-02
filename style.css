@@ -109,3 +109,8 @@
 @media(max-width:1000px){.score-television{padding:10px;gap:7px}.score-screen{padding:14px 5px}.scoreboard strong{font-size:48px}.scoreboard{gap:4px}.score-tv-trim{width:12px}.shelf-caption{display:none}}
 @media(max-width:660px){.club-table{inset:13% 11% 15%;transform:rotateX(18deg)}.table-stage{margin-top:18px}.table-rim{border-width:8px}.envelope-number{font-size:clamp(10px,3.4vw,17px)}.score-television{max-width:370px;margin:auto}.scoreboard strong{font-size:60px}.owl-shelf{max-width:370px;margin:auto}.spinner-cap{inset:35%}.table-caption{margin-top:15px}}
 .anastasia-hands{transform:translateY(3%) scale(.78);transform-origin:50% 100%}.table-caption{margin-top:30px}
+
+/* Возвращён прежний латунный волчок. */
+.spinner-cap{position:absolute;inset:43%;border-radius:50%;transform:translateZ(26px);background:radial-gradient(ellipse at 33% 20%,#cfbb83,#967344 45%,#493019 78%);box-shadow:0 3px 0 #4b321d,1px 8px 7px #0007,inset 0 1px 2px #f5e2ac99;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.spinner-foot{inset:36%;border-width:6px}.spinner-foot:after{display:block}
+@media(max-width:660px){.spinner-cap{inset:43%}.spinner-cap span{font-size:22px}}
