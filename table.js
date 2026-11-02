@@ -21,7 +21,7 @@
     const played=document.createElement('span');played.className='envelope-played';played.textContent='✓ СЫГРАН';played.setAttribute('aria-hidden','true');
     envelope.append(number);anchor.append(envelope,played);sectors.append(anchor);nodes.set(q.id,anchor);
   });
-  function setAngle(value){angle=value;rotor.style.setProperty('--rotation',`${value}deg`);}
+  function setAngle(value){angle=value;rotor.style.setProperty('--rotation',`${value}deg`);stage.style.setProperty('--rotation',`${value}deg`);}
   function render(played,active){
     nodes.forEach((node,id)=>{
       node.classList.toggle('played',played.includes(id));
@@ -84,7 +84,7 @@
       const x=rect.left+rect.width/2-innerWidth/2,y=rect.top+rect.height/2-(innerHeight/2+35);
       const scale=original.offsetWidth/width;
       const rotation=questionAngle(id)>180?questionAngle(id)-360:questionAngle(id);
-      const launch=`translate(${x}px,${y}px) rotateX(25deg) rotateZ(${rotation}deg) scale(${scale})`;
+      const launch=`translate(${x}px,${y}px) rotateX(18deg) rotateZ(${rotation}deg) scale(${scale})`;
       rig.style.transform=launch;
       await Promise.all([
         animate(overlay,[{background:'rgba(3,18,13,0)'},{background:'rgba(3,18,13,.82)'}],650),
