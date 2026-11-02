@@ -4,8 +4,8 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102e29">
   <title>Особая игра · Для Анастасии</title>
-  <link rel="stylesheet" href="style.css?v=audio-resume-v1">
-  <script src="questions.js?v=audio-resume-v1" defer></script><script src="sounds.js?v=audio-resume-v1" defer></script><script src="table.js?v=audio-resume-v1" defer></script><script src="app.js?v=audio-resume-v1" defer></script>
+  <link rel="stylesheet" href="style.css?v=award-v1">
+  <script src="questions.js?v=award-v1" defer></script><script src="sounds.js?v=award-v1" defer></script><script src="table.js?v=award-v1" defer></script><script src="app.js?v=award-v1" defer></script>
 </head>
 <body>
   <header><a class="brand" href="#" aria-label="Главная">ЧТО<span>ГДЕ</span>КОГДА<span class="brand-dot">?</span></a><div class="edition">ЗАКРЫТЫЙ КЛУБ <span>•</span> ОСОБАЯ ИГРА</div><button id="sound" class="icon-button" aria-pressed="true">Звук: вкл.</button></header>
@@ -69,5 +69,22 @@
   </main><footer><span>СОЗДАНО КОЛЛЕГАМИ. С ТЕПЛОМ.</span><span>Вечер, в котором главный знаток — вы.</span></footer>
   <dialog id="question-dialog" aria-labelledby="question-heading"><div class="dialog-top"><span id="question-meta" class="eyebrow"></span><button id="close-dialog" class="icon-button" aria-label="Закрыть вопрос и приостановить таймер">✕</button></div><h2 id="question-heading"></h2><div id="question-stage"></div><div id="timer-area" hidden><div class="timer-row"><span id="timer" role="timer">01:00</span><button id="pause" class="secondary">Пауза</button></div><div class="timer-track"><div id="timer-progress"></div></div><p id="timer-message" class="muted" aria-live="polite"></p></div><div id="answer-area" hidden><label for="answer-input">Ваша версия</label><textarea id="answer-input" rows="2" placeholder="Напишите ответ или ответьте вслух…"></textarea><div class="actions"><button id="reveal" class="primary">Показать правильный ответ</button><button id="oral" class="secondary">Ответить вслух</button></div></div><div id="reveal-area" hidden><p class="eyebrow">ВНИМАНИЕ, ПРАВИЛЬНЫЙ ОТВЕТ</p><h3 id="correct-answer"></h3><p id="explanation" class="muted"></p><p id="accepted-answer" class="accepted-answer" hidden></p><p id="your-answer" class="muted"></p><p>Анастасия, ваша версия верна по смыслу?</p><div class="actions"><button id="correct" class="primary">Да, я ответила правильно</button><button id="incorrect" class="secondary">В этот раз ошиблась</button></div></div></dialog>
   <dialog id="reset-dialog"><h2>Начать новую игру?</h2><p class="muted">Текущий счёт и ответы будут удалены.</p><div class="actions"><button id="confirm-reset" class="primary">Начать заново</button><button id="cancel-reset" class="secondary">Продолжить игру</button></div></dialog>
+
+  <dialog id="award-dialog" aria-labelledby="award-title">
+    <div class="award-layout"><div class="award-art"><img src="crystal-owl.png" alt="Хрустальная сова «Оксфорд» в академической шапочке"><span>ГЛАВНЫЙ ПРИЗ ИНТЕЛЛЕКТУАЛЬНОГО КЛУБА</span></div>
+    <div class="award-copy"><p class="eyebrow">РЕШЕНИЕ КЛУБА ЕДИНОГЛАСНО</p><h2 id="award-title" tabindex="-1">Уважаемая Анастасия!</h2>
+    <p>Последний вопрос сыгран. И настало время подвести итоги нашей игры.</p>
+    <p>Каким бы ни оказался счёт, решение клуба знатоков «Оксфорд» единогласно и обжалованию не подлежит.</p>
+    <p>Если Вы одержали победу, значит, в очередной раз доказали, что Ваши знания, логика и интуиция способны справиться с любым вопросом.</p>
+    <p>Если же победили коллеги… Что ж, мы вынуждены признать, что составители вопросов, не имея достаточного опыта в этом непростом деле, могли допустить некоторые неточности. Просим учесть это обстоятельство при оценке результатов игры.</p>
+    <p>Поэтому сегодня мы присуждаем главный приз <strong>независимо от итогового счёта</strong>.</p>
+    <p>За умение находить ответы, задавать правильные вопросы и руководить теми, кто иногда не знает ни того ни другого, Вам вручается…</p>
+    <h3 class="award-prize">🏆 ХРУСТАЛЬНАЯ СОВА «ОКСФОРД»!</h3>
+    <p>Поздравляем Вас с днём рождения!</p>
+    <p>И помните: знатоки могут ошибаться, телезрители могут ошибаться, но в одном мы совершенно уверены — с Вами нам невероятно повезло.</p>
+    <p><strong>На этом наша игра окончена. До встречи за игровым столом!</strong></p>
+    <p class="muted">P.S. Если за игровым столом остались еще вопросы и вы хотите их сыграть, можете вернуться к игре, счет будет вестись и далее.</p>
+    <button id="award-return" class="primary">Вернуться к игровому столу ↗</button></div></div>
+  </dialog>
 </body>
 </html>

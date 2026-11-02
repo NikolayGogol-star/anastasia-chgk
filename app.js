@@ -3,7 +3,7 @@
   const $ = id => document.getElementById(id);
   const questions = window.QUESTIONS;
   const KEY = 'anastasia-club-v1';
-  const fresh = () => ({player:0,authors:0,played:[],answers:{},active:null,phase:'question',remaining:60000,draft:'',sound:true,entered:false,warningPlayed:false,screen:'welcome'});
+  const fresh = () => ({player:0,authors:0,played:[],answers:{},active:null,phase:'question',remaining:60000,draft:'',sound:true,entered:false,warningPlayed:false,screen:'welcome',awardDismissed:false});
   let lastTickSecond = null;
   let state = fresh(), running = false, deadline = 0, interval, spinning = false;
   try {
@@ -27,7 +27,7 @@
     $('reset').disabled=spinning;
     if(spinning){$('status-label').textContent='ВОЛЧОК ВРАЩАЕТСЯ';$('status-title').textContent='Внимание на стол.';$('status-copy').textContent='Сейчас волчок выберет конверт с вопросом от коллеги.';$('spin').textContent='Выбираем вопрос…';}
     else if(state.active!==null){$('status-label').textContent='ВОПРОС УЖЕ НА СТОЛЕ';$('status-title').textContent='Продолжим мысль?';$('status-copy').textContent='Ваш вопрос сохранён. Вернитесь к нему, когда будете готовы.';$('spin').textContent='Продолжить вопрос ↗';}
-    else if(finished()){$('status-label').textContent='ИГРА ЗАВЕРШЕНА';$('status-title').textContent=state.player>=6?'Браво, Анастасия!':'Спасибо за красивую игру!';$('status-copy').textContent='Этот вечер — для вас. Спасибо за вдохновение, смелые решения и нашу команду. Оставшиеся вопросы можно посмотреть вне зачёта.';$('spin').textContent='Открыть оставшийся вопрос ↗';}
+    else if(finished()){$('status-label').textContent='ИГРА ЗАВЕРШЕНА';$('status-title').textContent=state.player>=6?'Браво, Анастасия!':'Спасибо за красивую игру!';$('status-copy').textContent='Этот вечер — для вас. Спасибо за вдохновение, смелые решения и нашу команду. Оставшиеся вопросы можно сыграть — счёт продолжает вестись.';$('spin').textContent='Открыть оставшийся вопрос ↗';}
     else{$('status-label').textContent=state.played.length?'СЛЕДУЮЩИЙ РАУНД':'НАЧИНАЕМ ВЕЧЕР';$('status-title').textContent=state.played.length?'Продолжаем игру.':'Внимание, на столе — вопросы.';$('status-copy').textContent='Крутите волчок — он выберет конверт. Посмотрите вопрос и дайте себе минуту на размышление.';$('spin').textContent='Крутить волчок ↗';}
     $('spin').disabled=spinning || (state.active===null && state.played.length===questions.length);
     if(state.played.length===questions.length && state.active===null){$('status-title').textContent='Все конверты открыты.';$('spin').textContent='Спасибо за игру!';}
@@ -38,7 +38,7 @@
   function startThinking(){cue('minute-start');state.phase='thinking';save();showQuestion();startTimer();$('answer-input').focus();}
   function showQuestion(){
     const q=questions.find(q=>q.id===state.active);if(!q)return;
-    $('question-meta').textContent=`КОНВЕРТ ${String(q.id).padStart(2,'0')} · ${q.author}${finished()?' · ВНЕ ЗАЧЁТА':''}`;
+    $('question-meta').textContent=`КОНВЕРТ ${String(q.id).padStart(2,'0')} · ${q.author}${finished()?' · ПРОДОЛЖЕНИЕ ИГРЫ':''}`;
     $('question-dialog').classList.toggle('has-video',state.phase==='question'&&Boolean(q.video));$('question-heading').textContent=q.title;$('question-stage').replaceChildren();
     $('timer-area').hidden=state.phase!=='thinking';$('answer-area').hidden=state.phase!=='thinking';$('reveal-area').hidden=state.phase!=='reveal';
     if(state.phase==='question'){
@@ -50,7 +50,7 @@
     if(!$('question-dialog').open){$('question-dialog').showModal();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)$('question-dialog').animate([{opacity:0,transform:'perspective(1000px) rotateX(-6deg) scale(.96)'},{opacity:1,transform:'perspective(1000px) rotateX(0deg) scale(1)'}],{duration:400,easing:'cubic-bezier(.2,.65,.3,1)'});window.TableScene.finishOpening();}
   }
   function reveal(){cue('reveal');stopTimer();state.draft=$('answer-input').value.trim();state.phase='reveal';save();showQuestion();}
-  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(!exhibition){if(correct)state.player++;else state.authors++;}cue(!exhibition&&finished()?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();}
+  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(correct)state.player++;else state.authors++;cue(!exhibition&&finished()?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();if(!exhibition&&finished())showAward();}
   $('spin').onclick=async()=>{
     if(spinning)return;
     if(state.active!==null){window.GameSounds.unlock();cue('question');showQuestion();return;}
@@ -88,5 +88,9 @@
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();window.TableScene.reset();save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
   document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});
   window.addEventListener('resize',render);window.addEventListener('beforeunload',()=>{if(running)state.remaining=Math.max(0,deadline-Date.now());save();});
+  function showAward(){if(!finished()||state.awardDismissed)return;const dialog=$('award-dialog');if(!dialog.open){dialog.showModal();dialog.scrollTop=0;$('award-title').focus({preventScroll:true});}}
+  $('award-return').onclick=()=>{$('award-dialog').close();$('spin').focus({preventScroll:true});};
+  $('award-dialog').addEventListener('close',()=>{state.awardDismissed=true;save();});
   render();
+  if(finished()&&!state.awardDismissed)showAward();
 })();

@@ -129,3 +129,9 @@
 
 /* Спинки кресел снаружи, сиденья обращены к центру стола. */
 .club-chair{transform:rotate(var(--seat-angle)) translateY(-225%)}
+
+#award-dialog{width:min(1120px,95vw);padding:0;background:#091b25;border:1px solid #a5916080;max-height:92vh}#award-dialog::backdrop{background:#010508f5}
+.award-layout{display:grid;grid-template-columns:42% 58%;align-items:start}.award-art{position:sticky;top:0;background:#010812;min-height:600px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}.award-art img{width:100%;display:block;animation:owl-emerge 4s ease-out both}.award-art span{padding:22px 20px;text-align:center;font-size:8px;letter-spacing:2px;color:#c9b880;line-height:1.8}.award-copy{padding:38px 36px}.award-copy p{font-size:14px;line-height:1.9;color:#dae0de}.award-copy h2{font-size:30px;color:#f0e6cc}.award-copy .eyebrow{font-size:9px;color:var(--gold)}.award-prize{color:var(--gold);font-size:23px;line-height:1.6}.award-copy .primary{width:100%;margin-top:12px}.award-copy .muted{font-size:12px;color:#a0b4b7}
+@keyframes owl-emerge{0%{opacity:0;filter:brightness(0);transform:scale(.96)}30%{opacity:.5;filter:brightness(.25)}100%{opacity:1;filter:brightness(1);transform:scale(1)}}
+@media(max-width:700px){.award-layout{grid-template-columns:1fr}.award-art{position:relative;min-height:0}.award-art img{width:min(100%,320px);margin:auto}.award-art span{padding:12px}.award-copy{padding:24px}.award-copy h2{font-size:26px}}
+@media(prefers-reduced-motion:reduce){.award-art img{animation:none}}
