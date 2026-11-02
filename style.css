@@ -126,3 +126,6 @@
 .spinner-cap{inset:44%;transform:translateZ(22px);background:radial-gradient(ellipse at 35% 22%,#dcc28b,#ae8c51 55%,#70502c);border:1px solid #d0b67e;box-shadow:0 2px 0 #72502b,0 4px 0 #44301d,2px 6px 5px #0005,inset 0 1px 1px #fff5}
 .spinner-cap i{display:none}.spinner-cap span{font:clamp(18px,2.8vw,32px) Georgia;color:#49351e;text-shadow:0 1px #ecd8a5}
 @media(max-width:660px){.spinner-cap{inset:44%}.spinner-cap span{font-size:20px}}
+
+/* Спинки кресел снаружи, сиденья обращены к центру стола. */
+.club-chair{transform:rotate(var(--seat-angle)) translateY(-225%)}
