@@ -114,3 +114,8 @@
 .spinner-cap{position:absolute;inset:43%;border-radius:50%;transform:translateZ(26px);background:radial-gradient(ellipse at 33% 20%,#cfbb83,#967344 45%,#493019 78%);box-shadow:0 3px 0 #4b321d,1px 8px 7px #0007,inset 0 1px 2px #f5e2ac99;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .spinner-foot{inset:36%;border-width:6px}.spinner-foot:after{display:block}
 @media(max-width:660px){.spinner-cap{inset:43%}.spinner-cap span{font-size:22px}}
+
+/* Силуэты знатоков: вид сверху, без лиц и рук. */
+.seat-person{position:absolute;width:114%;height:125%;left:-7%;top:-9%;overflow:visible;filter:drop-shadow(0 4px 3px #0009)}
+.person-shoulders{fill:#182622;stroke:#607064;stroke-width:1}.person-head{fill:#4b5148;stroke:#879080;stroke-width:1}.person-hair{fill:#242822}
+.seat-anastasia .person-shoulders{fill:#6f7061;stroke:#b3ae94}.seat-anastasia .person-head{fill:#827660;stroke:#a69b80}.seat-anastasia .person-hair{fill:#40382d;stroke:#76654d;stroke-width:1}
