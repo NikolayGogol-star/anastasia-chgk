@@ -146,3 +146,13 @@
 @media(prefers-reduced-motion:reduce){.award-art img{animation:none;transform:none}}
 
 #award-title:focus,#award-title:focus-visible{outline:none;box-shadow:none}.award-music{margin:8px 0 12px;font-size:12px}
+
+/* Бумажные конверты: сгибы, отдельный клапан и тонкая фактура. */
+.envelope{overflow:hidden;border-radius:2px;border:1px solid #bcaa87;background:radial-gradient(ellipse at 25% 10%,#fff9e9aa,transparent 65%),linear-gradient(170deg,#eee3c8,#ded0b0);box-shadow:0 1px 0 #fff8 inset,0 -1px 0 #b7a37b88 inset,1px 2px 1px #35211140,2px 5px 6px #160e0966}
+.envelope:before{inset:0;clip-path:polygon(0 0,100% 0,50% 58%);background:linear-gradient(170deg,#fff5df,#e8dabb 85%);filter:none;box-shadow:none;z-index:2;border-radius:1px;transform:none}
+.envelope:after{inset:0;clip-path:none;background:linear-gradient(31deg,transparent 49.2%,#a58b5e50 49.7%,#fff6dc88 50.2%,transparent 50.9%) left bottom/50% 100% no-repeat,linear-gradient(-31deg,transparent 49.2%,#a58b5e50 49.7%,#fff6dc88 50.2%,transparent 50.9%) right bottom/50% 100% no-repeat;z-index:1}
+.envelope-number{z-index:3;font-weight:400;font-size:clamp(12px,1.45vw,21px);letter-spacing:.06em;padding-top:8%;color:#503c28;text-shadow:0 1px #fff7}
+.envelope-number:before{content:'';position:absolute;width:17%;height:1px;background:#b39b6c66;left:41.5%;bottom:-17%}
+.envelope-anchor.selected .envelope{border-color:#d7c393;box-shadow:0 1px 0 #fff9 inset,3px 11px 12px #160d0977}
+@media(max-width:660px){.envelope-number{font-size:clamp(10px,3.4vw,17px)}}
+.envelope{background:#e9ddc2 url('envelope-paper.svg') center/100% 100% no-repeat}.envelope:before,.envelope:after{display:none}
