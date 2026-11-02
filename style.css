@@ -144,3 +144,5 @@
 @keyframes owl-emerge{0%{opacity:0;filter:brightness(0);transform:scale(1)}20%{opacity:.3;filter:brightness(.12)}60%{opacity:.8;filter:brightness(.6)}100%{opacity:1;filter:brightness(1);transform:scale(1.04)}}
 @media(max-width:700px){.award-art{aspect-ratio:3/4}.award-art img{width:100%;max-width:none;margin:0}.award-art span{font-size:7px;padding-bottom:18px}}
 @media(prefers-reduced-motion:reduce){.award-art img{animation:none;transform:none}}
+
+#award-title:focus,#award-title:focus-visible{outline:none;box-shadow:none}.award-music{margin:8px 0 12px;font-size:12px}

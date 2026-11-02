@@ -50,7 +50,7 @@
     if(!$('question-dialog').open){$('question-dialog').showModal();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)$('question-dialog').animate([{opacity:0,transform:'perspective(1000px) rotateX(-6deg) scale(.96)'},{opacity:1,transform:'perspective(1000px) rotateX(0deg) scale(1)'}],{duration:400,easing:'cubic-bezier(.2,.65,.3,1)'});window.TableScene.finishOpening();}
   }
   function reveal(){cue('reveal');stopTimer();state.draft=$('answer-input').value.trim();state.phase='reveal';save();showQuestion();}
-  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(correct)state.player++;else state.authors++;cue(!exhibition&&finished()?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();if(!exhibition&&finished())showAward();}
+  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(correct)state.player++;else state.authors++;if(exhibition||!finished())cue(correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();if(!exhibition&&finished())showAward();}
   $('spin').onclick=async()=>{
     if(spinning)return;
     if(state.active!==null){window.GameSounds.unlock();cue('question');showQuestion();return;}
@@ -88,7 +88,9 @@
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();window.TableScene.reset();save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
   document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});
   window.addEventListener('resize',render);window.addEventListener('beforeunload',()=>{if(running)state.remaining=Math.max(0,deadline-Date.now());save();});
-  function showAward(){if(!finished()||state.awardDismissed)return;const dialog=$('award-dialog');if(!dialog.open){dialog.showModal();dialog.scrollTop=0;$('award-title').focus({preventScroll:true});}}
+  function showAward(){if(!finished()||state.awardDismissed)return;const dialog=$('award-dialog');if(!dialog.open){dialog.showModal();dialog.scrollTop=0;$('award-music').hidden=!state.sound;$('award-title').focus({preventScroll:true});cue('victory');}}
+  document.addEventListener('game-audio-playing',event=>{if(event.detail==='victory')$('award-music').hidden=true;});
+  $('award-music').onclick=async()=>{state.sound=true;save();render();await cue('victory');};
   $('award-return').onclick=()=>{$('award-dialog').close();$('spin').focus({preventScroll:true});};
   $('award-dialog').addEventListener('close',()=>{state.awardDismissed=true;save();});
   render();
