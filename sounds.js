@@ -5,7 +5,7 @@
     if (!r.ok) throw new Error('Audio unavailable');
     return r.arrayBuffer();
   }).catch(() => null)]));
-  let context, source, generation = 0;
+  let context, source, generation = 0, currentName=null, offset=0, startedAt=0, paused=null, everStarted=false;
   const buffers = new Map();
   async function unlock() {
     try {
@@ -15,10 +15,21 @@
     } catch { return false; }
   }
   function stop() {
+    paused=null;currentName=null;offset=0;
     generation++;
     if (source) { try { source.stop(); } catch {} source = null; }
   }
-  async function play(name) {
+  function pause() {
+    if(currentName && context) paused={name:currentName,offset:offset+Math.max(0,context.currentTime-startedAt)};
+    generation++;
+    if(source){try{source.stop();}catch{}source=null;}
+  }
+  async function resume() {
+    if(!paused)return false;
+    const saved=paused;
+    return play(saved.name,saved.offset);
+  }
+  async function play(name,from=0) {
     stop();
     const token = generation;
     const ready = await unlock();
@@ -35,14 +46,17 @@
       source.buffer = buffers.get(name);
       const gain = context.createGain();
       source.connect(gain); gain.connect(context.destination);
-      const duration = Math.min(source.buffer.duration, {intro:180,rules:180,spin:7.4,correct:60,incorrect:60,victory:180}[name] || 15);
+      const total = Math.min(source.buffer.duration, {intro:180,rules:180,spin:7.4,correct:60,incorrect:60,victory:180}[name] || 15);
+      if(from>=total){source=null;return false;}
+      const duration=total-from;
       const now = context.currentTime;
+      currentName=name;offset=from;startedAt=now;everStarted=true;
       gain.gain.setValueAtTime(.7,now);
       if (duration>2) {
         gain.gain.setValueAtTime(.7,now+duration-.4);
         gain.gain.linearRampToValueAtTime(0,now+duration);
       }
-      source.start(0,0,duration);
+      source.start(0,from,duration);
       document.dispatchEvent(new CustomEvent('game-audio-playing',{detail:name}));
       return true;
     } catch { document.dispatchEvent(new CustomEvent('game-audio-error')); return false; }
@@ -57,5 +71,5 @@
     oscillator.connect(gain);gain.connect(context.destination);oscillator.start(now);oscillator.stop(now+.05);
     oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};
   }
-  window.GameSounds = {unlock,play,stop,tick};
+  window.GameSounds = {unlock,play,stop,tick,pause,resume,hasStarted:()=>everStarted,hasPaused:()=>Boolean(paused),pausedName:()=>paused&&paused.name};
 })();

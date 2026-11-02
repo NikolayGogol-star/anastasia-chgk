@@ -63,7 +63,7 @@
     try{await animation;}catch(error){console.warn('Envelope animation unavailable',error);}finally{spinning=false;render();}
     cue('question');showQuestion();
   };
-  $('intro-music').onclick=async()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();$('intro-music').textContent='♫ Запускаем музыку…';const played=await cue('intro');$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed',String(played));};
+  $('intro-music').onclick=async()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.pause();$('intro-music').textContent='♫ Продолжить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();$('intro-music').textContent='♫ Запускаем музыку…';const played=await (window.GameSounds.pausedName()==='intro'?window.GameSounds.resume():cue('intro'));$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed',String(played));};
   document.addEventListener('game-audio-error',()=>{$('audio-notice').hidden=false;});
   document.addEventListener('game-audio-playing',()=>{$('audio-notice').hidden=true;});
   document.addEventListener('click',()=>{if(state.sound)window.GameSounds.unlock();},{capture:true});
@@ -74,7 +74,16 @@
   $('correct').onclick=()=>grade(true);$('incorrect').onclick=()=>grade(false);
   $('close-dialog').onclick=()=>{$('question-dialog').close();};
   $('question-dialog').addEventListener('close',()=>{if(state.active!==null)window.GameSounds.stop();stopTimer();const v=$('question-stage').querySelector('video');if(v)v.pause();render();});
-  $('sound').onclick=()=>{state.sound=!state.sound;save();render();if(state.sound)cue(!state.entered&&!state.played.length&&state.active===null?(state.screen==='mechanics'?'rules':'intro'):'minute-start');else {window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}};
+  $('sound').onclick=async()=>{
+    const firstClick=!window.GameSounds.hasStarted();
+    state.sound=firstClick?true:!state.sound;save();render();
+    if(state.sound){
+      let played=false;
+      if(window.GameSounds.hasPaused())played=await window.GameSounds.resume();
+      else if(firstClick)played=await cue(!state.entered&&!state.played.length&&state.active===null?(state.screen==='mechanics'?'rules':'intro'):'minute-start');
+      if(!state.entered&&state.screen!=='mechanics'){$('intro-music').setAttribute('aria-pressed',String(played));$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';}
+    }else{window.GameSounds.pause();$('intro-music').textContent='♫ Продолжить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}
+  };
   $('reset').onclick=()=>$('reset-dialog').showModal();$('cancel-reset').onclick=()=>$('reset-dialog').close();
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();window.TableScene.reset();save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
   document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});
