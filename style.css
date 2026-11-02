@@ -119,3 +119,10 @@
 .seat-person{position:absolute;width:114%;height:125%;left:-7%;top:-9%;overflow:visible;filter:drop-shadow(0 4px 3px #0009)}
 .person-shoulders{fill:#182622;stroke:#607064;stroke-width:1}.person-head{fill:#4b5148;stroke:#879080;stroke-width:1}.person-hair{fill:#242822}
 .seat-anastasia .person-shoulders{fill:#6f7061;stroke:#b3ae94}.seat-anastasia .person-head{fill:#827660;stroke:#a69b80}.seat-anastasia .person-hair{fill:#40382d;stroke:#76654d;stroke-width:1}
+
+/* Спокойная первоначальная форма: латунная стрелка и плоская ступица. */
+.spinner-foot{inset:38%;border:3px solid #65472a;background:radial-gradient(ellipse at 35% 25%,#28503c,#153428 72%);box-shadow:0 2px 0 #b8995e66,0 4px 0 #302114,2px 7px 8px #0006}
+.spinner-foot:after{bottom:13%;font-size:5px;letter-spacing:.8px}
+.spinner-cap{inset:44%;transform:translateZ(22px);background:radial-gradient(ellipse at 35% 22%,#dcc28b,#ae8c51 55%,#70502c);border:1px solid #d0b67e;box-shadow:0 2px 0 #72502b,0 4px 0 #44301d,2px 6px 5px #0005,inset 0 1px 1px #fff5}
+.spinner-cap i{display:none}.spinner-cap span{font:clamp(18px,2.8vw,32px) Georgia;color:#49351e;text-shadow:0 1px #ecd8a5}
+@media(max-width:660px){.spinner-cap{inset:44%}.spinner-cap span{font-size:20px}}
