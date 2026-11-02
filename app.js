@@ -49,7 +49,7 @@
     if(!$('question-dialog').open){$('question-dialog').showModal();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)$('question-dialog').animate([{opacity:0,transform:'perspective(1000px) rotateX(-6deg) scale(.96)'},{opacity:1,transform:'perspective(1000px) rotateX(0deg) scale(1)'}],{duration:400,easing:'cubic-bezier(.2,.65,.3,1)'});window.TableScene.finishOpening();}
   }
   function reveal(){cue('reveal');stopTimer();state.draft=$('answer-input').value.trim();state.phase='reveal';save();showQuestion();}
-  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(!exhibition){if(correct)state.player++;else state.authors++;}cue(!exhibition&&finished()&&state.player>=6?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();}
+  function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(!exhibition){if(correct)state.player++;else state.authors++;}cue(!exhibition&&finished()?'victory':correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();}
   $('spin').onclick=async()=>{
     if(spinning)return;
     if(state.active!==null){window.GameSounds.unlock();cue('question');showQuestion();return;}
@@ -66,14 +66,14 @@
   document.addEventListener('game-audio-error',()=>{$('audio-notice').hidden=false;});
   document.addEventListener('game-audio-playing',()=>{$('audio-notice').hidden=true;});
   document.addEventListener('click',()=>{if(state.sound)window.GameSounds.unlock();},{capture:true});
-  $('enter-game').onclick=()=>{state.screen='mechanics';save();render();window.scrollTo(0,0);$('mechanics-title').focus({preventScroll:true});};
+  $('enter-game').onclick=()=>{cue('rules');state.screen='mechanics';save();render();window.scrollTo(0,0);$('mechanics-title').focus({preventScroll:true});};
   $('start-game').onclick=()=>{state.entered=true;save();render();window.scrollTo(0,0);$('table-heading').focus({preventScroll:true});$('spin').click();};
   $('pause').onclick=()=>{window.GameSounds.stop();running?stopTimer():startTimer();};$('reveal').onclick=reveal;$('oral').onclick=reveal;
   $('answer-input').oninput=()=>{state.draft=$('answer-input').value;save();};
   $('correct').onclick=()=>grade(true);$('incorrect').onclick=()=>grade(false);
   $('close-dialog').onclick=()=>{$('question-dialog').close();};
   $('question-dialog').addEventListener('close',()=>{if(state.active!==null)window.GameSounds.stop();stopTimer();const v=$('question-stage').querySelector('video');if(v)v.pause();render();});
-  $('sound').onclick=()=>{state.sound=!state.sound;save();render();if(state.sound)cue(!state.entered&&!state.played.length&&state.active===null?'intro':'minute-start');else {window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}};
+  $('sound').onclick=()=>{state.sound=!state.sound;save();render();if(state.sound)cue(!state.entered&&!state.played.length&&state.active===null?(state.screen==='mechanics'?'rules':'intro'):'minute-start');else {window.GameSounds.stop();$('intro-music').textContent='♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}};
   $('reset').onclick=()=>$('reset-dialog').showModal();$('cancel-reset').onclick=()=>$('reset-dialog').close();
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();window.TableScene.reset();save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
   document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});

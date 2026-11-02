@@ -38,29 +38,39 @@
       "bytes": 38448
     },
     {
-      "event": "correct",
-      "file": "sound-correct.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557826684_pause6.mp3",
-      "bytes": 573567
-    },
-    {
-      "event": "incorrect",
-      "file": "sound-incorrect.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557827773_chgk2_no2.mp3",
-      "bytes": 316560
-    },
-    {
-      "event": "victory",
-      "file": "sound-victory.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557826810_pobediteli.mp3",
-      "bytes": 1988736
-    },
-    {
       "event": "intro",
       "file": "sound-intro.mp3",
       "source": "https://zvukipro.com/uploads/files/2019-05/1557826320_meeting.mp3",
       "download": "https://zvukipro.com/index.php?do=download&id=10302",
       "bytes": 1405056
+    },
+    {
+      "event": "correct",
+      "file": "sound-correct.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826655_pause4.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10308",
+      "bytes": 778368
+    },
+    {
+      "event": "victory",
+      "file": "sound-victory.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827467_chgk2_end.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10317",
+      "bytes": 1988736
+    },
+    {
+      "event": "incorrect",
+      "file": "sound-incorrect.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827773_chgk2_no2.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10321",
+      "bytes": 316560
+    },
+    {
+      "event": "rules",
+      "file": "sound-rules.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557826616_pause3.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10307",
+      "bytes": 891008
     }
   ]
 }

@@ -1,7 +1,7 @@
 // Записи из подборки ZvukiPro; полные адреса — sounds-sources.json.
 (() => {
-  const names = ['intro','spin','question','minute-start','warning','time-up','reveal','correct','incorrect','victory'];
-  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3`).then(r => {
+  const names = ['rules','intro','spin','question','minute-start','warning','time-up','reveal','correct','incorrect','victory'];
+  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=music-20261102`).then(r => {
     if (!r.ok) throw new Error('Audio unavailable');
     return r.arrayBuffer();
   }).catch(() => null)]));
@@ -35,7 +35,7 @@
       source.buffer = buffers.get(name);
       const gain = context.createGain();
       source.connect(gain); gain.connect(context.destination);
-      const duration = Math.min(source.buffer.duration, {intro:180,spin:7.4,correct:6,incorrect:5,victory:12}[name] || 15);
+      const duration = Math.min(source.buffer.duration, {intro:180,rules:180,spin:7.4,correct:60,incorrect:60,victory:180}[name] || 15);
       const now = context.currentTime;
       gain.gain.setValueAtTime(.7,now);
       if (duration>2) {
