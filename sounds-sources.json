@@ -48,13 +48,6 @@
       "bytes": 316560
     },
     {
-      "event": "rules",
-      "file": "sound-rules.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557826616_pause3.mp3",
-      "download": "https://zvukipro.com/index.php?do=download&id=10307",
-      "bytes": 891008
-    },
-    {
       "event": "warning",
       "file": "sound-warning.mp3",
       "source": "https://zvukipro.com/uploads/files/2019-05/1557828121_chgk2_sig2.mp3",
@@ -74,6 +67,13 @@
       "source": "https://zvukipro.com/uploads/files/2019-05/1557827985_chgk2_sig1.mp3",
       "download": "https://zvukipro.com/index.php?do=download&id=10328",
       "bytes": 18488
+    },
+    {
+      "event": "rules",
+      "file": "sound-rules.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827212_glenn-miller-in-the-mood.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10315",
+      "bytes": 5185548
     }
   ]
 }

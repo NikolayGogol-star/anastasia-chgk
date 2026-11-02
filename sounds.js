@@ -1,7 +1,7 @@
 // Записи из подборки ZvukiPro; полные адреса — sounds-sources.json.
 (() => {
   const names = ['rules','intro','spin','question','minute-start','warning','time-up','reveal','correct','incorrect','victory'];
-  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=timer-audio-v2`).then(r => {
+  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=rules-miller-v1`).then(r => {
     if (!r.ok) throw new Error('Audio unavailable');
     return r.arrayBuffer();
   }).catch(() => null)]));
