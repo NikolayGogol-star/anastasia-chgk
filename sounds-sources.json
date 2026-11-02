@@ -8,24 +8,6 @@
       "bytes": 692352
     },
     {
-      "event": "minute-start",
-      "file": "sound-minute-start.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557827985_chgk2_sig1.mp3",
-      "bytes": 18488
-    },
-    {
-      "event": "warning",
-      "file": "sound-warning.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557828121_chgk2_sig2.mp3",
-      "bytes": 16816
-    },
-    {
-      "event": "time-up",
-      "file": "sound-time-up.mp3",
-      "source": "https://zvukipro.com/uploads/files/2019-05/1557828147_chgk2_sig3.mp3",
-      "bytes": 19324
-    },
-    {
       "event": "question",
       "file": "sound-question.mp3",
       "source": "https://zvukipro.com/uploads/files/2019-05/1557828224_chgk2_vopros.mp3",
@@ -71,6 +53,27 @@
       "source": "https://zvukipro.com/uploads/files/2019-05/1557826616_pause3.mp3",
       "download": "https://zvukipro.com/index.php?do=download&id=10307",
       "bytes": 891008
+    },
+    {
+      "event": "warning",
+      "file": "sound-warning.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557828121_chgk2_sig2.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10329",
+      "bytes": 16816
+    },
+    {
+      "event": "time-up",
+      "file": "sound-time-up.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827985_chgk2_sig1.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10328",
+      "bytes": 18488
+    },
+    {
+      "event": "minute-start",
+      "file": "sound-minute-start.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557827985_chgk2_sig1.mp3",
+      "download": "https://zvukipro.com/index.php?do=download&id=10328",
+      "bytes": 18488
     }
   ]
 }

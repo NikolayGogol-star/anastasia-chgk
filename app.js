@@ -4,6 +4,7 @@
   const questions = window.QUESTIONS;
   const KEY = 'anastasia-club-v1';
   const fresh = () => ({player:0,authors:0,played:[],answers:{},active:null,phase:'question',remaining:60000,draft:'',sound:true,entered:false,warningPlayed:false,screen:'welcome'});
+  let lastTickSecond = null;
   let state = fresh(), running = false, deadline = 0, interval, spinning = false;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY));
@@ -33,7 +34,7 @@
   }
   function updateTimer(){const seconds=Math.ceil(state.remaining/1000);$('timer').textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;$('timer-progress').style.width=`${state.remaining/600}%`;$('pause').textContent=running?'Пауза':'Продолжить';$('pause').disabled=state.remaining<=0;$('timer-message').textContent=state.remaining<=0?'Время! Зафиксируйте вашу версию или ответьте вслух.':running?'Минута пошла. Можно ответить раньше.':'Таймер на паузе. Можно продолжить или дать ответ.';}
   function stopTimer(){if(running)state.remaining=Math.max(0,deadline-Date.now());running=false;clearInterval(interval);save();updateTimer();}
-  function startTimer(){if(state.remaining<=0)return;running=true;deadline=Date.now()+state.remaining;updateTimer();interval=setInterval(()=>{state.remaining=Math.max(0,deadline-Date.now());if(state.remaining>0&&state.remaining<=10000&&!state.warningPlayed){state.warningPlayed=true;cue('warning');}if(!state.remaining){running=false;clearInterval(interval);cue('time-up');}updateTimer();save();},200);}
+  function startTimer(){if(state.remaining<=0)return;running=true;lastTickSecond=Math.ceil(state.remaining/1000);deadline=Date.now()+state.remaining;updateTimer();interval=setInterval(()=>{state.remaining=Math.max(0,deadline-Date.now());const second=Math.ceil(state.remaining/1000);if(second!==lastTickSecond){lastTickSecond=second;if(second>0&&state.sound)window.GameSounds.tick(second);}if(state.remaining>0&&state.remaining<=10000&&!state.warningPlayed){state.warningPlayed=true;cue('warning');}if(!state.remaining){running=false;clearInterval(interval);cue('time-up');}updateTimer();save();},200);}
   function startThinking(){cue('minute-start');state.phase='thinking';save();showQuestion();startTimer();$('answer-input').focus();}
   function showQuestion(){
     const q=questions.find(q=>q.id===state.active);if(!q)return;

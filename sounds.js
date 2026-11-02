@@ -1,7 +1,7 @@
 // Записи из подборки ZvukiPro; полные адреса — sounds-sources.json.
 (() => {
   const names = ['rules','intro','spin','question','minute-start','warning','time-up','reveal','correct','incorrect','victory'];
-  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=music-20261102`).then(r => {
+  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=timer-audio-v2`).then(r => {
     if (!r.ok) throw new Error('Audio unavailable');
     return r.arrayBuffer();
   }).catch(() => null)]));
@@ -47,5 +47,15 @@
       return true;
     } catch { document.dispatchEvent(new CustomEvent('game-audio-error')); return false; }
   }
-  window.GameSounds = {unlock,play,stop};
+  // Короткий механический щелчок; отдельный канал не прерывает сигналы.
+  function tick(second) {
+    if (!context || context.state !== 'running') return;
+    const now=context.currentTime, oscillator=context.createOscillator(), gain=context.createGain();
+    oscillator.type='triangle';oscillator.frequency.setValueAtTime(second%2?1100:850,now);
+    gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.055,now+.002);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+.045);
+    oscillator.connect(gain);gain.connect(context.destination);oscillator.start(now);oscillator.stop(now+.05);
+    oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};
+  }
+  window.GameSounds = {unlock,play,stop,tick};
 })();
