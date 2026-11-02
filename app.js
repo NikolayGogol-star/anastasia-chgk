@@ -21,12 +21,12 @@
     const entered = state.entered || state.played.length>0 || state.active!==null;
     $('welcome').hidden=entered||state.screen==='mechanics';$('mechanics').hidden=entered||state.screen!=='mechanics';$('game-screen').hidden=!entered;
     $('player-score').textContent=state.player;$('authors-score').textContent=state.authors;
-    $('round-label').textContent=`Сыграно ${state.played.length} из ${questions.length}`;
+    $('round-label').textContent=`Сыграно вопросов: ${state.played.length} из ${questions.length}`;
     $('sound').textContent=`Звук: ${state.sound?'вкл.':'выкл.'}`;$('sound').setAttribute('aria-pressed',String(state.sound));
     window.TableScene.render(state.played,state.active);
     $('reset').disabled=spinning;
     if(spinning){$('status-label').textContent='ВОЛЧОК ВРАЩАЕТСЯ';$('status-title').textContent='Внимание на стол.';$('status-copy').textContent='Сейчас волчок выберет конверт с вопросом от коллеги.';$('spin').textContent='Выбираем вопрос…';}
-    else if(state.active!==null){$('status-label').textContent='ВОПРОС УЖЕ НА СТОЛЕ';$('status-title').textContent='Продолжим мысль?';$('status-copy').textContent='Ваш вопрос сохранён. Вернитесь к нему, когда будете готовы.';$('spin').textContent='Продолжить вопрос ↗';}
+    else if(state.active!==null){$('status-label').textContent='НЕЗАВЕРШЁННЫЙ РАУНД';$('status-title').textContent='Игра была прервана';$('status-copy').textContent=questions.some(q=>q.id===state.active)?`Вы остановились на вопросе № ${state.active}. Можно продолжить с того же места.`:'Вы можете продолжить игру с того места, на котором остановились.';$('spin').textContent='ПРОДОЛЖИТЬ ИГРУ ↗';}
     else if(finished()){$('status-label').textContent='ИГРА ЗАВЕРШЕНА';$('status-title').textContent=state.player>=6?'Браво, Анастасия!':'Спасибо за красивую игру!';$('status-copy').textContent='Этот вечер — для вас. Спасибо за вдохновение, смелые решения и нашу команду. Оставшиеся вопросы можно сыграть — счёт продолжает вестись.';$('spin').textContent='Открыть оставшийся вопрос ↗';}
     else{$('status-label').textContent=state.played.length?'СЛЕДУЮЩИЙ РАУНД':'НАЧИНАЕМ ВЕЧЕР';$('status-title').textContent=state.played.length?'Продолжаем игру.':'Внимание, на столе — вопросы.';$('status-copy').textContent='Крутите волчок — он выберет конверт. Посмотрите вопрос и дайте себе минуту на размышление.';$('spin').textContent='Крутить волчок ↗';}
     $('spin').disabled=spinning || (state.active===null && state.played.length===questions.length);
