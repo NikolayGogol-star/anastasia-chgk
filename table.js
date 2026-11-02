@@ -19,8 +19,7 @@
     const envelope=document.createElement('div');envelope.className='envelope';
     const number=document.createElement('span');number.className='envelope-number';number.textContent=String(q.id).padStart(2,'0');
     const played=document.createElement('span');played.className='envelope-played';played.textContent='✓ СЫГРАН';played.setAttribute('aria-hidden','true');
-    const signature=document.createElement('img');signature.className='envelope-signature';signature.src='oxford-logo.png';signature.alt='';signature.setAttribute('aria-hidden','true');
-    envelope.append(number,signature);anchor.append(envelope,played);sectors.append(anchor);nodes.set(q.id,anchor);
+    envelope.append(number);anchor.append(envelope,played);sectors.append(anchor);nodes.set(q.id,anchor);
   });
   function setAngle(value){angle=value;rotor.style.setProperty('--rotation',`${value}deg`);stage.style.setProperty('--rotation',`${value}deg`);}
   function render(played,active){
