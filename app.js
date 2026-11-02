@@ -86,7 +86,7 @@
   };
   $('reset').onclick=()=>$('reset-dialog').showModal();$('cancel-reset').onclick=()=>$('reset-dialog').close();
   $('confirm-reset').onclick=()=>{window.GameSounds.stop();stopTimer();state=fresh();window.TableScene.reset();save();render();$('reset-dialog').close();window.scrollTo(0,0);$('enter-game').focus({preventScroll:true});};
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){window.GameSounds.stop();if(running)stopTimer();}});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)stopTimer();});
   window.addEventListener('resize',render);window.addEventListener('beforeunload',()=>{if(running)state.remaining=Math.max(0,deadline-Date.now());save();});
   function showAward(){if(!finished()||state.awardDismissed)return;const dialog=$('award-dialog');if(!dialog.open){dialog.showModal();dialog.scrollTop=0;$('award-music').hidden=!state.sound;$('award-title').focus({preventScroll:true});cue('victory');}}
   document.addEventListener('game-audio-playing',event=>{if(event.detail==='victory')$('award-music').hidden=true;});
