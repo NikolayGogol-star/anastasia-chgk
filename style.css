@@ -135,3 +135,12 @@
 @keyframes owl-emerge{0%{opacity:0;filter:brightness(0);transform:scale(.96)}30%{opacity:.5;filter:brightness(.25)}100%{opacity:1;filter:brightness(1);transform:scale(1)}}
 @media(max-width:700px){.award-layout{grid-template-columns:1fr}.award-art{position:relative;min-height:0}.award-art img{width:min(100%,320px);margin:auto}.award-art span{padding:12px}.award-copy{padding:24px}.award-copy h2{font-size:26px}}
 @media(prefers-reduced-motion:reduce){.award-art img{animation:none}}
+
+/* Сова занимает всю высоту поздравления, проявляясь за 15 секунд. */
+.award-layout{align-items:stretch}
+.award-art{position:relative;top:auto;min-height:0;display:block;background:#010812;isolation:isolate}
+.award-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;animation:owl-emerge 15s cubic-bezier(.22,.45,.45,1) both}
+.award-art span{position:absolute;bottom:0;left:0;right:0;z-index:1;padding:35px 20px 24px;background:linear-gradient(transparent,#010812e6)}
+@keyframes owl-emerge{0%{opacity:0;filter:brightness(0);transform:scale(1)}20%{opacity:.3;filter:brightness(.12)}60%{opacity:.8;filter:brightness(.6)}100%{opacity:1;filter:brightness(1);transform:scale(1.04)}}
+@media(max-width:700px){.award-art{aspect-ratio:3/4}.award-art img{width:100%;max-width:none;margin:0}.award-art span{font-size:7px;padding-bottom:18px}}
+@media(prefers-reduced-motion:reduce){.award-art img{animation:none;transform:none}}
