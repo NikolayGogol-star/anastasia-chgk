@@ -52,8 +52,10 @@
   }
   function showQuestion(){
     const q=questions.find(q=>q.id===state.active);if(!q)return;
+    $('question-dialog').classList.toggle('sector-thirteen',q.id===13);
+    $('sector13-caption').hidden=q.id!==13;
     $('question-meta').textContent=`КОНВЕРТ ${String(q.id).padStart(2,'0')} · ${q.author}${finished()?' · ПРОДОЛЖЕНИЕ ИГРЫ':''}`;
-    $('question-dialog').classList.toggle('has-video',state.phase==='question'&&Boolean(q.video));$('question-heading').textContent=q.title;$('question-stage').replaceChildren();
+    $('question-dialog').classList.toggle('has-video',state.phase==='question'&&Boolean(q.video));$('question-heading').textContent=q.id===13?'Тринадцатый сектор':q.title;$('question-stage').replaceChildren();
     $('timer-area').hidden=state.phase!=='thinking';$('answer-area').hidden=state.phase!=='thinking';$('reveal-area').hidden=state.phase!=='reveal';
     if(state.phase==='question'){
       if(q.video){const v=document.createElement('video');v.className='video';v.controls=true;v.playsInline=true;v.preload='metadata';v.src=q.video;v.addEventListener('play',()=>window.GameSounds.stop());v.addEventListener('ended',startThinking,{once:true});const tv=document.createElement('div');tv.className='television';const screen=document.createElement('div');screen.className='television-screen';screen.append(v);const controls=document.createElement('div');controls.className='television-controls';controls.innerHTML='<span class="tv-knob small" aria-hidden="true"></span><span class="tv-speaker" aria-hidden="true"></span><span class="tv-power" aria-hidden="true"></span>';attachVideoVolume(v,controls);const face=document.createElement('div');face.className='television-face';face.append(screen,controls);const badge=document.createElement('div');badge.className='television-badge';badge.textContent='ИНТЕЛЛЕКТУАЛЬНЫЙ КЛУБ · ВИДЕОВОПРОС';tv.append(face,badge);$('question-stage').append(tv);const note=document.createElement('p');note.className='muted';note.textContent='Посмотрите видео. После его окончания минута начнётся автоматически.';$('question-stage').append(note);v.addEventListener('error',()=>{note.className='error';note.textContent='Видео не загрузилось. Проверьте файл. Можно прочитать текст вопроса ниже и запустить минуту вручную.';});}
@@ -67,7 +69,7 @@
   function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(correct)state.player++;else state.authors++;if(exhibition||!finished())cue(correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();if(!exhibition&&finished())showAward();}
   $('spin').onclick=async()=>{
     if(spinning)return;
-    if(state.active!==null){window.GameSounds.unlock();cue('question');showQuestion();return;}
+    if(state.active!==null){window.GameSounds.unlock();cue(state.active===13&&state.phase==='question'?'sector13':'question');showQuestion();return;}
     const available=questions.filter(q=>!state.played.includes(q.id));if(!available.length)return;
     const q=available[Math.floor(Math.random()*available.length)];
     spinning=true;state.active=q.id;state.phase='question';state.remaining=60000;state.warningPlayed=false;state.draft='';save();
@@ -75,7 +77,7 @@
     const animation=window.TableScene.spinTo(q.id);render();
     $('status-label').textContent='ВОЛЧОК ВРАЩАЕТСЯ';$('status-title').textContent='Внимание на стол.';$('status-copy').textContent='Сейчас волчок выберет конверт с вопросом от коллеги.';$('spin').textContent='Выбираем вопрос…';
     try{await animation;}catch(error){console.warn('Envelope animation unavailable',error);}finally{spinning=false;render();}
-    cue('question');showQuestion();
+    cue(state.active===13&&state.phase==='question'?'sector13':'question');showQuestion();
   };
   $('intro-music').onclick=async()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.pause();$('intro-music').textContent='♫ Продолжить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();$('intro-music').textContent='♫ Запускаем музыку…';const played=await (window.GameSounds.pausedName()==='intro'?window.GameSounds.resume():cue('intro'));$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed',String(played));};
   document.addEventListener('game-audio-error',()=>{$('audio-notice').hidden=false;});

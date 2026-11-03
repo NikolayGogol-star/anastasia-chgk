@@ -62,7 +62,7 @@
     const id=Number(anchor.dataset.questionId),number=String(id).padStart(2,'0');
     const width=Math.min(390,innerWidth*.76),height=width*.65;
     const sheetWidth=Math.min(760,innerWidth*.9),sheetHeight=Math.min(560,innerHeight*.76);
-    const overlay=document.createElement('div');overlay.className='mail-overlay';
+    const overlay=document.createElement('div');overlay.className='mail-overlay'+(id===13?' sector-thirteen':'');
     const rig=document.createElement('div');rig.className='mail-rig';rig.setAttribute('aria-hidden','true');
     rig.style.cssText=`width:${width}px;height:${height}px;left:${(innerWidth-width)/2}px;top:${(innerHeight-height)/2+35}px`;
     const back=document.createElement('div');back.className='mail-back';

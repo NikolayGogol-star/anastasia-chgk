@@ -75,6 +75,12 @@
       "download": "https://zvukipro.com/index.php?do=download&id=10315",
       "bytes": 4553788,
       "trimStartSeconds": 1.84
+    },
+    {
+      "event": "sector13",
+      "file": "sound-sector13.mp3",
+      "source": "https://zvukipro.com/uploads/files/2019-05/1557829437_chgk-13.mp3",
+      "bytes": 1037544
     }
   ]
 }

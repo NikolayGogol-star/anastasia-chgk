@@ -174,3 +174,14 @@ header .brand{margin-left:12px;flex-shrink:0}.header-actions{display:flex;align-
 .header-oxford{filter:invert(1) grayscale(1) sepia(1) saturate(1.4) brightness(1.5);opacity:1}
 
 .tv-volume{cursor:ns-resize;touch-action:none;user-select:none;flex-shrink:0}.tv-volume:before{left:calc(50% - 1px);top:13%;height:30%;transform-origin:50% 123%;transform:rotate(var(--dial-angle,135deg))}.tv-volume-value{font-size:8px;line-height:1;color:#d0c29f;margin-top:-8px;font-variant-numeric:tabular-nums}.tv-volume:focus-visible{outline:2px solid var(--gold);outline-offset:3px}@media(max-width:660px){.tv-volume{width:28px;height:28px}.tv-volume-value{font-size:7px;margin-top:-3px}}
+
+/* Только тринадцатый сектор: холодный синий свет телевизионного клуба. */
+#question-dialog.sector-thirteen{--muted:#b2c3dc;--line:#9dbce438;background:radial-gradient(ellipse at 20% 0%,#193f79,#081a38 75%);border-color:#7c9fc2;color:#f3efe3}
+#question-dialog.sector-thirteen::backdrop{background:#020917db}
+.sector13-caption{font-size:clamp(15px,2.2vw,21px);line-height:1.5;color:#d4e6ff;margin:18px 0 8px;letter-spacing:.03em}
+#question-dialog.sector-thirteen h2{margin-top:12px}
+#question-dialog.sector-thirteen .demo-question{background:#102a51;border-color:#658cb455}
+#question-dialog.sector-thirteen textarea{background:#071a35;color:#f3efe3;border-color:#658cb4}
+#question-dialog.sector-thirteen .television-face{background:#15263b}
+.mail-overlay.sector-thirteen{background:radial-gradient(ellipse at center,#163d7366,#030d2380)}
+.mail-overlay.sector-thirteen .mail-insert{background-color:#e8eef7}
