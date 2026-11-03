@@ -89,12 +89,11 @@
   $('close-dialog').onclick=()=>{$('question-dialog').close();};
   $('question-dialog').addEventListener('close',()=>{if(state.active!==null)window.GameSounds.stop();stopTimer();const v=$('question-stage').querySelector('video');if(v)v.pause();render();});
   $('sound').onclick=async()=>{
-    const firstClick=!window.GameSounds.hasStarted();
-    state.sound=firstClick?true:!state.sound;save();render();
+    state.sound=!state.sound;save();render();
     if(state.sound){
       let played=false;
       if(window.GameSounds.hasPaused())played=await window.GameSounds.resume();
-      else if(firstClick)played=await cue(!state.entered&&!state.played.length&&state.active===null?(state.screen==='mechanics'?'rules':'intro'):'minute-start');
+      else if(!window.GameSounds.hasStarted()||(!state.entered&&state.screen==='mechanics'))played=await cue(!state.entered&&!state.played.length&&state.active===null?(state.screen==='mechanics'?'rules':'intro'):'minute-start');
       if(!state.entered&&state.screen!=='mechanics'){$('intro-music').setAttribute('aria-pressed',String(played));$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';}
     }else{window.GameSounds.pause();$('intro-music').textContent='♫ Продолжить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');}
   };

@@ -1,12 +1,20 @@
 // Записи из подборки ZvukiPro; полные адреса — sounds-sources.json.
 (() => {
   const names = ['rules','intro','spin','question','minute-start','warning','time-up','reveal','correct','incorrect','victory'];
-  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=rules-miller-v1`).then(r => {
+  const data = new Map(names.map(name => [name, fetch(`sound-${name}.mp3?v=instant-rules-v1`).then(r => {
     if (!r.ok) throw new Error('Audio unavailable');
     return r.arrayBuffer();
   }).catch(() => null)]));
   let context, source, generation = 0, currentName=null, offset=0, startedAt=0, paused=null, everStarted=false;
   const buffers = new Map();
+  const decoding=new Map();
+  function getContext(){if(!context)context=new (window.AudioContext || window.webkitAudioContext)();return context;}
+  function prepare(name){
+    if(buffers.has(name))return Promise.resolve(buffers.get(name));
+    if(!decoding.has(name))decoding.set(name,(async()=>{const ctx=getContext();const bytes=await data.get(name);if(!bytes)throw new Error('Audio unavailable');const buffer=await ctx.decodeAudioData(bytes.slice(0));buffers.set(name,buffer);return buffer;})().catch(error=>{decoding.delete(name);throw error;}));
+    return decoding.get(name);
+  }
+  prepare('rules').catch(()=>{});prepare('intro').catch(()=>{});
   async function unlock() {
     try {
       if (!context) context = new (window.AudioContext || window.webkitAudioContext)();
@@ -36,11 +44,7 @@
     if (token !== generation) return false;
     if (!ready) { document.dispatchEvent(new CustomEvent('game-audio-error')); return false; }
     try {
-      if (!buffers.has(name)) {
-        const bytes = await data.get(name);
-        if (!bytes) throw new Error('Audio unavailable');
-        buffers.set(name, await context.decodeAudioData(bytes.slice(0)));
-      }
+      await prepare(name);
       if (token !== generation) return false;
       source = context.createBufferSource();
       source.buffer = buffers.get(name);

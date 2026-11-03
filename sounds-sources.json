@@ -73,7 +73,8 @@
       "file": "sound-rules.mp3",
       "source": "https://zvukipro.com/uploads/files/2019-05/1557827212_glenn-miller-in-the-mood.mp3",
       "download": "https://zvukipro.com/index.php?do=download&id=10315",
-      "bytes": 5185548
+      "bytes": 4553788,
+      "trimStartSeconds": 1.84
     }
   ]
 }
