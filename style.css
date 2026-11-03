@@ -185,3 +185,5 @@ header .brand{margin-left:12px;flex-shrink:0}.header-actions{display:flex;align-
 #question-dialog.sector-thirteen .television-face{background:#15263b}
 .mail-overlay.sector-thirteen{background:radial-gradient(ellipse at center,#163d7366,#030d2380)}
 .mail-overlay.sector-thirteen .mail-insert{background-color:#e8eef7}
+
+.question-transcript summary{cursor:pointer;color:var(--gold);font-size:14px;line-height:1.6;padding:8px 0}.question-transcript p{line-height:1.8;white-space:pre-line}
