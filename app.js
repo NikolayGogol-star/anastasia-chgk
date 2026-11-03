@@ -69,7 +69,7 @@
   function grade(correct){if(state.active===null||state.phase!=='reveal')return;const id=state.active;const exhibition=finished();state.answers[id]={answer:state.draft,correct,exhibition};if(correct)state.player++;else state.authors++;if(exhibition||!finished())cue(correct?'correct':'incorrect');state.played.push(id);state.active=null;state.phase='question';state.remaining=60000;state.draft='';$('question-dialog').close();save();render();if(!exhibition&&finished())showAward();}
   $('spin').onclick=async()=>{
     if(spinning)return;
-    if(state.active!==null){window.GameSounds.unlock();cue(state.active===13&&state.phase==='question'?'sector13':'question');showQuestion();return;}
+    if(state.active!==null){window.GameSounds.unlock();if(state.active===13)window.GameSounds.stop();else cue('question');showQuestion();return;}
     const available=questions.filter(q=>!state.played.includes(q.id));if(!available.length)return;
     const q=available[Math.floor(Math.random()*available.length)];
     spinning=true;state.active=q.id;state.phase='question';state.remaining=60000;state.warningPlayed=false;state.draft='';save();
@@ -77,7 +77,7 @@
     const animation=window.TableScene.spinTo(q.id);render();
     $('status-label').textContent='ВОЛЧОК ВРАЩАЕТСЯ';$('status-title').textContent='Внимание на стол.';$('status-copy').textContent='Сейчас волчок выберет конверт с вопросом от коллеги.';$('spin').textContent='Выбираем вопрос…';
     try{await animation;}catch(error){console.warn('Envelope animation unavailable',error);}finally{spinning=false;render();}
-    cue(state.active===13&&state.phase==='question'?'sector13':'question');showQuestion();
+    if(state.active===13)window.GameSounds.stop();else cue('question');showQuestion();
   };
   $('intro-music').onclick=async()=>{if($('intro-music').getAttribute('aria-pressed')==='true'){window.GameSounds.pause();$('intro-music').textContent='♫ Продолжить музыку начала игры';$('intro-music').setAttribute('aria-pressed','false');return;}state.sound=true;save();render();$('intro-music').textContent='♫ Запускаем музыку…';const played=await (window.GameSounds.pausedName()==='intro'?window.GameSounds.resume():cue('intro'));$('intro-music').textContent=played?'♫ Музыка начала игры · остановить':'♫ Включить музыку начала игры';$('intro-music').setAttribute('aria-pressed',String(played));};
   document.addEventListener('game-audio-error',()=>{$('audio-notice').hidden=false;});
